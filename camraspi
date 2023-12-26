@@ -18,7 +18,7 @@ temp = '/Temperature'
 vis = '/Viscosity'
 volt = '/Voltage'
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 if not cap.isOpened():
     print("Error: Could not open the webcam.")
@@ -67,25 +67,25 @@ while True:
 
     # Draw rectangles and labels for each sensor
     cv2.rectangle(frame, (50, 50), (200, 250), (0, 255, 0), 2)
-    cv2.putText(frame, f"Sensor 1: {sensor1_value}", (50, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+    cv2.putText(frame, f"Belt: {sensor1_value}", (50, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
 
     cv2.rectangle(frame, (250, 50), (400, 250), (255, 0, 0), 2)
-    cv2.putText(frame, f"Sensor 2: {sensor2_value}", (250, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
+    cv2.putText(frame, f"Current: {sensor2_value}", (250, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 0), 2)
 
     cv2.rectangle(frame, (450, 50), (600, 250), (0, 0, 255), 2)
-    cv2.putText(frame, f"Sensor 3: {sensor3_value}", (450, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
+    cv2.putText(frame, f"Position: {sensor3_value}", (450, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
 
     cv2.rectangle(frame, (650, 50), (800, 250), (255, 255, 0), 2)
-    cv2.putText(frame, f"Sensor 4: {sensor4_value}", (650, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 0), 2)
+    cv2.putText(frame, f"RPM: {sensor4_value}", (650, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 0), 2)
 
     cv2.rectangle(frame, (850, 50), (1000, 250), (255, 0, 255), 2)
-    cv2.putText(frame, f"Sensor 5: {sensor5_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
+    cv2.putText(frame, f"Sound Decibel: {sensor5_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
      cv2.rectangle(frame, (850, 50), (1000, 250), (255, 0, 255), 2)
-    cv2.putText(frame, f"Sensor 6: {sensor6_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
+    cv2.putText(frame, f"Temperature: {sensor6_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
      cv2.rectangle(frame, (850, 50), (1000, 250), (255, 0, 255), 2)
-    cv2.putText(frame, f"Sensor 7: {sensor7_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
+    cv2.putText(frame, f"Viscosity: {sensor7_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
      cv2.rectangle(frame, (850, 50), (1000, 250), (255, 0, 255), 2)
-    cv2.putText(frame, f"Sensor 8: {sensor8_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
+    cv2.putText(frame, f"Voltage: {sensor8_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
     
 
 
