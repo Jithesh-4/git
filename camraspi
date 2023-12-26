@@ -56,14 +56,11 @@ while True:
         # For example, you can control GPIO pins, sensors, actuators, etc.
 
     # Generate random values for each sensor
-    sensor1_value = data0
-    sensor2_value = data1
-    sensor3_value = data2
-    sensor4_value = data3
-    sensor5_value = data4
-    sensor6_value = data5
-    sensor7_value = data6
-    sensor8_value = data7
+    sensor1_value = random.randint(10, 100)
+    sensor2_value = random.randint(50, 150)
+    sensor3_value = random.randint(100, 200)
+    sensor4_value = random.randint(200, 300)
+    sensor5_value = random.randint(300, 400)
 
     # Draw rectangles and labels for each sensor
     cv2.rectangle(frame, (50, 50), (200, 250), (0, 255, 0), 2)
@@ -80,14 +77,6 @@ while True:
 
     cv2.rectangle(frame, (850, 50), (1000, 250), (255, 0, 255), 2)
     cv2.putText(frame, f"Sensor 5: {sensor5_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
-     cv2.rectangle(frame, (850, 50), (1000, 250), (255, 0, 255), 2)
-    cv2.putText(frame, f"Sensor 6: {sensor6_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
-     cv2.rectangle(frame, (850, 50), (1000, 250), (255, 0, 255), 2)
-    cv2.putText(frame, f"Sensor 7: {sensor7_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
-     cv2.rectangle(frame, (850, 50), (1000, 250), (255, 0, 255), 2)
-    cv2.putText(frame, f"Sensor 8: {sensor8_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
-    
-
 
     cv2.imshow('Webcam', frame)
 
