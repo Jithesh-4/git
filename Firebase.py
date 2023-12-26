@@ -28,7 +28,7 @@ while True:
         data6 = db.reference(vis).get()
         data7 = db.reference(volt).get()
         
-        if data is not None:
+        if data0 is not None:
             # Process the received data
             print("Received Data:", data0)
             print("Received Data:", data1)
