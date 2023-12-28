@@ -1,14 +1,5 @@
 import RPi.GPIO as GPIO
 import time
-import random
-from firebase_admin import credentials, initialize_app, db
-
-# Replace the following with your Firebase project credentials
-cred = credentials.Certificate("/home/pi/Desktop/git/fir-demo-c7e7a-firebase-adminsdk-ettih-ec76f9b27c.json")
-firebase_app = initialize_app(cred, {"databaseURL": "https://predictive-maintainence-1841d-default-rtdb.firebaseio.com/"})
-
-# Replace this with the path where you want to store sensor data in Firebase
-sensor_data_ref = db.reference("/temperature")
 
 # Set the GPIO mode to BCM
 GPIO.setmode(GPIO.BCM)
@@ -48,21 +39,7 @@ try:
 
 except KeyboardInterrupt:
     pass
-
-def main():
-    try:
-        while True:
-
-            sensor_data_ref.child("RPM:").set(rpm)
-            time.sleep(1)  # Upload data every 60 seconds (adjust as needed)
-    except KeyboardInterrupt:
-        print("Program terminated by user.")
-    finally:
-        firebase_app.delete()  # Clean up Firebase resources
-
-if __name__ == "__main__":
-    main()
-
+    
 finally:
     # Clean up GPIO on program exit
     GPIO.cleanup()
