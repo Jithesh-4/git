@@ -18,6 +18,9 @@ temp = '/Temperature'
 vis = '/Viscosity'
 volt = '/Voltage'
 
+display_width = 800  # Set the desired width
+display_height = 600  # Set the desired height
+
 cap = cv2.VideoCapture(1)
 
 if not cap.isOpened():
@@ -90,7 +93,8 @@ while True:
     cv2.rectangle(frame, (850, 50), (1000, 250), (255, 0, 255), 2)
     cv2.putText(frame, f"Voltage: {sensor8_value}", (850, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 0, 255), 2)
     
-
+    # Resize the frame to the desired display size
+    frame = cv2.resize(frame, (display_width, display_height))
 
     cv2.imshow('Webcam', frame)
 
