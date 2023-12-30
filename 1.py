@@ -1,65 +1,89 @@
-import RPi.GPIO as GPIO
+import firebase_admin
+from firebase_admin import credentials, db
 import time
+import cv2
 import random
-from firebase_admin import credentials, initialize_app, db
+import threading
 
-# Replace the following with your Firebase project credentials
-cred = credentials.Certificate("/home/pi/Desktop/git/predictive-maintainence-1841d-firebase-adminsdk-oejc1-93d9f4abb4.json")
-firebase_app = initialize_app(cred, {"databaseURL": "https://predictive-maintainence-1841d-default-rtdb.firebaseio.com/"})
+# Replace with your Firebase project credentials
+cred = credentials.Certificate("/home/pi/Desktop/123/predictive-maintainence-1841d-firebase-adminsdk-oejc1-93d9f4abb4.json")
+firebase_admin.initialize_app(cred, {'databaseURL': 'https://predictive-maintainence-1841d-default-rtdb.firebaseio.com/'})
 
-# Replace this with the path where you want to store sensor data in Firebase
-sensor_data_ref = db.reference("/")
+# Define the path in the Firebase Realtime Database
+belt = '/BELT POSITION'
+current = '/CURRENT'
+position = '/POSITION'
+rpm = '/RPM'
+sound = '/SOUND DECIBEL'
+temp = '/TEMPERATURE'
+vis = '/OIL VISCOSITY'
+volt = '/VOLTAGE'
 
-# Set the GPIO mode to BCM
-GPIO.setmode(GPIO.BCM)
+# Set the desired display size
+display_width = 640
+display_height = 480
 
-# Define the GPIO pin to which the RPM sensor is connected
-rpm_sensor_pin = 17
+# Set webcam capture properties
+cap = cv2.VideoCapture(1)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+cap.set(cv2.CAP_PROP_FPS, 30)
 
-# Set up the GPIO pin as input
-GPIO.setup(rpm_sensor_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+if not cap.isOpened():
+    print("Error: Could not open the webcam.")
+    exit()
 
-# Initialize variables
-rpm_count = 0
-prev_time = time.time()
-
-# Define a callback function for the RPM sensor interrupt
-def rpm_callback(channel):
-    global rpm_count
-    rpm_count += 1
-
-# Add event detection to the RPM sensor GPIO pin
-GPIO.add_event_detect(rpm_sensor_pin, GPIO.FALLING, callback=rpm_callback)
-
-
-try:
+# Function to retrieve Firebase data and process it
+def firebase_thread():
     while True:
-            # Calculate RPM every 5 seconds
-        current_time = time.time()
-        elapsed_time = current_time-prev_time
-        prev_time = current_time
+        # Retrieve Firebase data
+        data0 = db.reference(belt).get()
+        data1 = db.reference(current).get()
+        data2 = db.reference(position).get()
+        data3 = db.reference(rpm).get()
+        data4 = db.reference(sound).get()
+        data5 = db.reference(temp).get()
+        data6 = db.reference(vis).get()
+        data7 = db.reference(volt).get()
 
-            # Calculate RPM
-        rpm = (rpm_count / 2) / elapsed_time * 60
-        print(f"RPM: {rpm}")
+        if data0 is not None:
+            # Process the received data
+            print("Belt:", data0)
+            print("Current:", data1)
+            print("Position:", data2)
+            print("RPM:", data3)
+            print("Sound Decibel:", data4)
+            print("Temperature:", data5)
+            print("Viscosity:", data6)
+            print("Voltage:", data7)
 
-            # Reset RPM count
-        rpm_count = 0
-            
-        sensor_data_ref.child("RPM").set(rpm)
-        time.sleep(1)  # Upload data every 60 seconds (adjust as needed)
-except KeyboardInterrupt:
-    print("Program terminated by user.")
-    
-finally:
-    firebase_app.delete()  # Clean up Firebase resources
-    GPIO.cleanup()
+            # Add your logic here to perform actions based on the received data
+            # For example, you can control GPIO pins, sensors, actuators, etc.
 
-if __name__ == "__main__":
-    main()
+        # Sleep for a short time to avoid continuous requests
+        time.sleep(0.1)
 
+# Start the Firebase thread
+firebase_thread = threading.Thread(target=firebase_thread)
+firebase_thread.start()
 
+while True:
+    ret, frame = cap.read()
 
+    if not ret:
+        print("Error: Could not read a frame.")
+        break
 
-    
-    
+    # Draw rectangles and labels for each sensor
+    # (rest of the code)
+
+    # Resize the frame to the desired display size
+    frame = cv2.resize(frame, (display_width, display_height))
+
+    cv2.imshow('Webcam', frame)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
